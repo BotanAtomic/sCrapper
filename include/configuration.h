@@ -5,10 +5,15 @@
 #ifndef SCRAPPER_CONFIGURATION_H
 #define SCRAPPER_CONFIGURATION_H
 
+#define ACTION 0
+#define OPTION 1
+#define TASK 2
+
 #include "list.h"
 
 struct Task {
-
+    short hour, minute, second;
+    char action[255];
 } typedef Task;
 
 struct Option {

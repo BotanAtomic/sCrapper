@@ -1,4 +1,27 @@
-a
-#b
-c
-                - eqfnopq q wdoqjwopdnqwd je suis une fin de ligne
+=
+{name -> Mon site web}
+{url -> http://facebook.com}
++
+{option1 -> value1}
+{option2 -> value2}
+{option3 -> value3}
+
+=
+{name -> Mon deuxieme site}
+{url -> http://gogole.com}
++
+{option4 -> value4}
+{option5 -> value5}
+
+==
+{name -> Ma super tache}
+{second -> 10}
++
+{Mon Site Web,  Mon deuxieme site}
+
+==
+{name -> Ma tache facile}
+{minute -> 2}
+{second -> 10}
++
+{Mon Site Web}
