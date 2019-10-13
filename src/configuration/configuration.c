@@ -15,6 +15,7 @@ Task *newTask() {
     task->hour = 0;
     task->minute = 0;
     task->second = 0;
+    task->action = createList();
     return task;
 }
 
@@ -46,7 +47,38 @@ Configuration *newConfiguration() {
         exit(-1);
     }
     configuration->actions = createList();
+    configuration->tasks = createList();
     return configuration;
+}
+
+void printActionOption(void *option) {
+    Option * o = (Option *) option;
+    println("\t\t\t [%s] -> [%s]", o->key, o->value);
+
+}
+
+void printAction(void *a) {
+    Action * action = (Action *) a;
+    println("\tAction [%s]", action->name);
+    println("\t\tURL [%s]", action->url);
+    println("\t\tOptions [%d]", action->options->length);
+
+    foreach(action->options, printActionOption);
+}
+
+void printStr(void * s) {
+    println("\t\t\t [%s]", (char *) s);
+}
+
+void printTask(void *t) {
+    Task * task = (Task *) t;
+
+    println("\tTask [%s]", task->name);
+    println("\t\tsecond [%d]", task->second);
+    println("\t\tminute [%d]", task->minute);
+    println("\t\thour [%d]", task->hour);
+
+    foreach(task->action, printStr);
 }
 
 Configuration *loadConfiguration() {
@@ -93,14 +125,29 @@ Configuration *loadConfiguration() {
             } else if (next == '{' && state != -1) {
                 line[strlen(line) - 1] = 0;
 
-                Action *lastAction = ((Action *) configuration->actions->element->value);
+                Action *currentAction = NULL;
+
+                if (configuration->actions->element)
+                    currentAction = ((Action *) configuration->actions->element->value);
+
+                Task *currentTask = NULL;
+
+                if (configuration->tasks->element)
+                    currentTask = ((Task *) configuration->tasks->element->value);
+
 
                 switch (state) {
                     case ACTION:
-                        parseAction(line, lastAction, &error);
+                        parseAction(line, currentAction, &error);
                         break;
                     case OPTION_ACTION:
-
+                        parseActionOption(line, currentAction, &error);
+                        break;
+                    case TASK:
+                        parseTask(line, currentTask, &error);
+                        break;
+                    case OPTION_TASK:
+                        parseTaskOption(line, currentTask, &error);
                         break;
                 }
 
@@ -123,6 +170,10 @@ Configuration *loadConfiguration() {
         configuration = NULL;
     }
 
+    if (configuration) {
+        foreach(configuration->actions, printAction);
+        foreach(configuration->tasks, printTask);
+    }
     fclose(configurationFile);
     return configuration;
 }

@@ -19,7 +19,8 @@
 
 struct Task {
     short hour, minute, second;
-    char * action;
+    char * name;
+    List *action;
 } typedef Task;
 
 struct Option {
@@ -28,7 +29,7 @@ struct Option {
 } typedef Option;
 
 struct Action {
-    char * name;
+    char *name;
     char *url;
     List *options;
 } typedef Action;
@@ -39,11 +40,11 @@ struct Configuration {
     List *tasks;
 } typedef Configuration;
 
-Task * newTask();
+Task *newTask();
 
-Option * newOption(char * key, char * value);
+Option *newOption(char *key, char *value);
 
-Action * newAction();
+Action *newAction();
 
 Configuration *newConfiguration();
 
