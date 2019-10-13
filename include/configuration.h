@@ -6,14 +6,20 @@
 #define SCRAPPER_CONFIGURATION_H
 
 #define ACTION 0
-#define OPTION 1
-#define TASK 2
+#define OPTION_ACTION 1
+#define OPTION_TASK 2
+#define TASK 3
 
+#include <stdio.h>
 #include "list.h"
+#include "string.h"
+#include "shell.h"
+#include "utils.h"
+#include "scanner.h"
 
 struct Task {
     short hour, minute, second;
-    char action[255];
+    char * action;
 } typedef Task;
 
 struct Option {
@@ -22,17 +28,22 @@ struct Option {
 } typedef Option;
 
 struct Action {
-    char name[255];
+    char * name;
     char *url;
     List *options;
-    char optionLength;
 } typedef Action;
 
 
 struct Configuration {
-    short length;
     List *actions;
+    List *tasks;
 } typedef Configuration;
+
+Task * newTask();
+
+Option * newOption(char * key, char * value);
+
+Action * newAction();
 
 Configuration *newConfiguration();
 

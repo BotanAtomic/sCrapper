@@ -19,9 +19,7 @@ void print(const char *__restrict __format, ...) {
 
 void printError(const char *__restrict __format, ...) {
     setColor(RED);
-    printf(__format);
-    resetColor();
-    fflush(stdout);
+    print(__format);
 }
 
 void setColor(char *color) {

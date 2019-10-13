@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(include)
 
-add_executable(sCrapper src/core/main.c src/configuration/configuration.c include/configuration.h src/shell/shell.c include/shell.h src/scanner/scanner.c include/scanner.h include/list.h src/list/list.c)
+add_executable(sCrapper src/core/main.c src/configuration/configuration.c include/configuration.h src/shell/shell.c include/shell.h src/scanner/scanner.c include/scanner.h include/list.h src/list/list.c src/configuration/parser.c include/parser.h src/utils/utils.c include/utils.h)
