@@ -51,36 +51,6 @@ Configuration *newConfiguration() {
     return configuration;
 }
 
-void printActionOption(void *option) {
-    Option * o = (Option *) option;
-    println("\t\t\t [%s] -> [%s]", o->key, o->value);
-
-}
-
-void printAction(void *a) {
-    Action * action = (Action *) a;
-    println("\tAction [%s]", action->name);
-    println("\t\tURL [%s]", action->url);
-    println("\t\tOptions [%d]", action->options->length);
-
-    foreach(action->options, printActionOption);
-}
-
-void printStr(void * s) {
-    println("\t\t\t [%s]", (char *) s);
-}
-
-void printTask(void *t) {
-    Task * task = (Task *) t;
-
-    println("\tTask [%s]", task->name);
-    println("\t\tsecond [%d]", task->second);
-    println("\t\tminute [%d]", task->minute);
-    println("\t\thour [%d]", task->hour);
-
-    foreach(task->action, printStr);
-}
-
 Configuration *loadConfiguration() {
     FILE *configurationFile = fopen("configuration.sconf", "r");
 
@@ -170,10 +140,6 @@ Configuration *loadConfiguration() {
         configuration = NULL;
     }
 
-    if (configuration) {
-        foreach(configuration->actions, printAction);
-        foreach(configuration->tasks, printTask);
-    }
     fclose(configurationFile);
     return configuration;
 }
