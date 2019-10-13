@@ -58,7 +58,7 @@ void parseTask(char *line, Task *task, char *error) {
     }
 }
 
-void parseTaskOption(char *line, Task *task, char *error) {
+void parseTaskOption(char *line, Task *task, Configuration *configuration, char *error) {
     char *sCopy = stringCopy(line + 1);
     size_t len = strlen(sCopy);
     if (sCopy[len - 1] == '}')
@@ -66,7 +66,17 @@ void parseTaskOption(char *line, Task *task, char *error) {
     char *token = strtok(sCopy, ",");
     while (token != NULL) {
         trim(token);
-        listInsert(task->action, token);
+
+        Action *action = listSearch(configuration->actions, token);
+
+        if (!action) {
+            *error = 1;
+            setColor(RED);
+            println("Cannot find action [%s]", token);
+            break;
+        }
+
+        listInsert(task->action, action);
         token = strtok(NULL, "->");
     }
 

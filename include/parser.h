@@ -15,7 +15,7 @@ void parseActionOption(char *line, Action *action, char *error);
 
 void parseTask(char *line, Task *task, char *error);
 
-void parseTaskOption(char *line, Task *task, char *error);
+void parseTaskOption(char *line, Task *task, Configuration * configuration, char *error);
 
 void parseKeyValue(char *s, char **key, char **value);
 

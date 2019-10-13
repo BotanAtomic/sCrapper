@@ -5,6 +5,7 @@
 
 #include "configuration.h"
 #include "parser.h"
+#include "comparator.h"
 
 Task *newTask() {
     Task *task = malloc(sizeof(Task *));
@@ -46,7 +47,7 @@ Configuration *newConfiguration() {
         printError("No enough memory !");
         exit(-1);
     }
-    configuration->actions = createList();
+    configuration->actions = createComparableList(compareAction);
     configuration->tasks = createList();
     return configuration;
 }
@@ -117,13 +118,11 @@ Configuration *loadConfiguration() {
                         parseTask(line, currentTask, &error);
                         break;
                     case OPTION_TASK:
-                        parseTaskOption(line, currentTask, &error);
+                        parseTaskOption(line, currentTask, configuration, &error);
                         break;
                 }
 
                 if (error) break;
-
-                println("Line:%d [%s] STATE = %d", lineCount, line, state);
             } else {
                 error = 1;
                 break;
