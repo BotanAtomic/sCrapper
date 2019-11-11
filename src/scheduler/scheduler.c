@@ -6,7 +6,7 @@
 
 List *threads;
 
-void joinThread(pthread_t * threadPtr) {
+void joinThread(const pthread_t * threadPtr) {
     pthread_join(*threadPtr, NULL);
 }
 
@@ -14,7 +14,7 @@ void joinThread(pthread_t * threadPtr) {
 void startScheduler(Configuration *configuration) {
     threads = createList();
     foreach(configuration->tasks, schedule);
-    foreach(threads, joinThread);
+    foreach(threads, (void (*)(void *)) joinThread);
 }
 
 void schedule(void *taskPtr) {
@@ -35,7 +35,7 @@ void *startTaskTimer(void *taskPtr) {
 
     while (1) {
         sleep(task->second + (task->minute * 60) + (task->hour * 3600));
-        println("Execute task %s", task->name);
+        foreach(task->action, aspire);
     }
 
     return 0;

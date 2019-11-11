@@ -101,10 +101,14 @@ void parseKeyValue(char *s, char **key, char **value) {
     size_t len = strlen(sCopy);
     if (sCopy[len - 1] == '}')
         sCopy[len - 1] = 0;
-    char *token = strtok(sCopy, "->");
+    char *token = strtok(sCopy, ">");
     int i = 0;
     while (token != NULL) {
         if (i > 1) break;
+
+        if (!i)
+            token[strlen(token) - 1] = 0;
+
         trim(token);
         *(i % 2 == 0 ? key : value) = token;
         token = strtok(NULL, "->");

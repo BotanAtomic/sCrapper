@@ -29,3 +29,15 @@ void trim(char *str) {
 
     str[i - begin] = '\0';
 }
+
+int getIntegerFromOption(Option *option, int defaultValue) {
+    if (option)
+        return atoi(option->value);
+    return defaultValue;
+}
+
+char *getFromOption(Option *option, char *defaultValue) {
+    if (option)
+        return option->value;
+    return defaultValue;
+}

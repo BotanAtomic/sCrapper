@@ -7,9 +7,14 @@
 
 #include "string.h"
 #include "stdlib.h"
+#include "configuration.h"
 
 void trim(char * s);
 
 char * stringCopy(char * src);
+
+int getIntegerFromOption(Option * option, int defaultValue);
+
+char * getFromOption(Option * option, char * defaultValue);
 
 #endif //SCRAPPER_UTILS_H

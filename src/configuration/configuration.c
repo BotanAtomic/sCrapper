@@ -37,7 +37,7 @@ Action *newAction() {
         printError("No enough memory !");
         exit(-1);
     }
-    action->options = createList();
+    action->options = createComparableList(compareOption);
     return action;
 }
 

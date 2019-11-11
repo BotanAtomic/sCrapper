@@ -9,4 +9,6 @@
 
 char compareAction(void *, void *);
 
+char compareOption(void *first, void *second);
+
 #endif //DATI_COMPARATOR_H

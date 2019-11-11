@@ -14,7 +14,6 @@
 #include "list.h"
 #include "string.h"
 #include "shell.h"
-#include "utils.h"
 #include "scanner.h"
 
 struct Task {

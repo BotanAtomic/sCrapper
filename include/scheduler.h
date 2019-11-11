@@ -9,8 +9,9 @@
 #include <pthread.h>
 #include <zconf.h>
 #include "configuration.h"
+#include "scrapper.h"
 
-void joinThread(pthread_t * thread);
+void joinThread(const pthread_t * thread);
 
 void startScheduler(Configuration *configuration);
 

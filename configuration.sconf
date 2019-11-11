@@ -1,23 +1,16 @@
 =
 {name -> Mon Site Web}
-{url -> http://facebook.com}
+{url -> http://info.cern.ch/hypertext/WWW/TheProject.html}
 +
-{option1 -> value1}
-{option2 -> value2}
+{max-depth -> 2}
+{versioning -> on}
 {option3 -> value3}
-
-=
-{name -> Mon deuxieme site}
-{url -> http://gogole.com}
-+
-{option4 -> value4}
-{option5 -> value5}
 
 ==
 {name -> Ma super tache}
-{second -> 10}
+{second -> 5}
 +
-{Mon Site Web,  Mon deuxieme site}
+{Mon Site Web}
 
 ==
 {name -> Ma tache facile}
