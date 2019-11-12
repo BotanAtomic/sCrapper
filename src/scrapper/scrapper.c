@@ -38,6 +38,10 @@ void aspire(Action *action) {
     char versioning = (char) !strcmp(getFromOption(
             listSearch(action->options, "versioning"), "off"), "on");
 
+    Option *typeOption = listSearch(action->options, "type");
+
+    List *types = typeOption ? typeOption->value : NULL;
+
     println("Starting task for action \"%s\" [max-depth: %d, versionning: %s]", action->name, maxDepth,
             versioning ? "ON" : "OFF");
 
@@ -58,26 +62,37 @@ void aspire(Action *action) {
     for (Element *element = urls->element; element != NULL && i <= maxDepth; element = element->next) {
         char *url = element->value;
         println("[%s] -> downloading : %s", action->name, url);
-        downloadURL(url, path, urls);
+        downloadURL(url, path, urls, types);
         i++;
     }
 }
 
-void downloadURL(char *url, char *basePath, List *urls) {
+void downloadURL(char *url, char *basePath, List *urls, List *types) {
     CURL *curlHandle;
+    CURLcode response;
     FILE *file;
+
 
     char filePath[255];
     char *fileName = strtok(stringCopy(url), "/");
-    while (fileName != NULL) {
-        char * temp =  strtok(NULL, "/");
-        if(temp && strlen(temp)) {
+
+    char lastUrlChar = url[strlen(url) - 1];
+
+    while (fileName != NULL && lastUrlChar != '/') {
+        char *temp = strtok(NULL, "/");
+        printf("TEMP = %s\n", temp);
+
+        if (temp && strlen(temp)) {
             fileName = temp;
-            printf("%s\n", fileName);
         } else {
             break;
         }
     }
+
+    if (lastUrlChar == '/') {
+        fileName = "index.html";
+    }
+
 
     curl_global_init(CURL_GLOBAL_ALL);
     curlHandle = curl_easy_init();
@@ -86,19 +101,36 @@ void downloadURL(char *url, char *basePath, List *urls) {
     curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt(curlHandle, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, writeData);
+    curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, 0);
 
     sprintf(filePath, "%s/%s", basePath, fileName);
     file = fopen(filePath, "wb");
 
-    if(file) {
+    if (file) {
         curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, file);
-        curl_easy_perform(curlHandle);
+        response = curl_easy_perform(curlHandle);
         fclose(file);
-        println("Successfully downloaded \"%s\" at \"%s\"", fileName, basePath);
+
+        if (response == CURLE_OK) {
+            char *contentType = NULL;
+            curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_TYPE, &contentType);
+
+            if (types != NULL && !listSearch(types, contentType)) {
+                setColor(RED);
+                println("Cannot download url \"%s\" to \"%s\": FORBIDDEN TYPE '%s'", fileName, basePath, contentType);
+            } else {
+                println("Successfully downloaded \"%s\" at \"%s\" [%s]", fileName, basePath, contentType);
+            }
+        } else {
+            setColor(RED);
+            println("Cannot download url \"%s\" to \"%s\"", fileName, basePath);
+        }
     } else {
-        printError("Cannot create file \"%s\" at path \"%s\"\n", fileName, basePath);
+        setColor(RED);
+        println("Cannot create file \"%s\" at path \"%s\"", fileName, basePath);
     }
 
     curl_easy_cleanup(curlHandle);
     curl_global_cleanup();
+
 }

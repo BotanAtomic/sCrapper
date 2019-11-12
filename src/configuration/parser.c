@@ -40,11 +40,11 @@ void parseTask(char *line, Task *task, char *error) {
     if (strcmp(key, "name") == 0) {
         task->name = stringCopy(value);
     } else if (strcmp(key, "second") == 0) {
-        task->second = strtol(value, &endPtr, 10);
+        task->second = (short) strtol(value, &endPtr, 10);
     } else if (strcmp(key, "minute") == 0) {
-        task->minute = strtol(value, &endPtr, 10);
+        task->minute = (short) strtol(value, &endPtr, 10);
     } else if (strcmp(key, "hour") == 0) {
-        task->hour = strtol(value, &endPtr, 10);
+        task->hour = (short) strtol(value, &endPtr, 10);
     } else {
         setColor(RED);
         println("Set error for [%s] [%s]", key, value);
@@ -93,6 +93,14 @@ void parseActionOption(char *line, Action *action, char *error) {
     }
 
     Option *option = newOption(key, value);
+
+
+    if (!strcmp(key, "type")) {
+        List *types = createComparableList(compareString);
+        parseListValue(value, types);
+        option->value = types;
+    }
+
     listInsert(action->options, option);
 }
 
@@ -103,16 +111,29 @@ void parseKeyValue(char *s, char **key, char **value) {
         sCopy[len - 1] = 0;
     char *token = strtok(sCopy, ">");
     int i = 0;
-    while (token != NULL) {
-        if (i > 1) break;
-
+    while (token != NULL && i < 2) {
         if (!i)
             token[strlen(token) - 1] = 0;
 
         trim(token);
+
         *(i % 2 == 0 ? key : value) = token;
         token = strtok(NULL, "->");
         i++;
+    }
+
+}
+
+void parseListValue(char *s, List *value) {
+    char *sCopy = stringCopy(s + 1);
+    size_t len = strlen(sCopy);
+    sCopy[len - 1] = 0;
+
+    char *token = strtok(sCopy, ",");
+    while (token != NULL) {
+        trim(token);
+        listInsert(value, stringCopy(token));
+        token = strtok(NULL, ",");
     }
 
 }

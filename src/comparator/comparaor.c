@@ -14,3 +14,10 @@ char compareOption(void *first, void *second) {
     return (char) strcmp(option->key, (char *) first);
 }
 
+char compareString(void *first, void *second) {
+
+    printf("Compare %s with %s\n", first, second);
+
+    return (char) strcmp((char *) second, (char *) first);
+}
+

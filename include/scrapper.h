@@ -9,6 +9,6 @@
 
 void aspire(Action * action);
 
-void downloadURL(char * url, char * basePath, List * urls);
+void downloadURL(char * url, char * basePath, List * urls, List * types);
 
 #endif //SCRAPPER_SCRAPPER_H

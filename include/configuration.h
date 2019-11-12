@@ -24,7 +24,7 @@ struct Task {
 
 struct Option {
     char *key;
-    char *value;
+    void *value;
 } typedef Option;
 
 struct Action {

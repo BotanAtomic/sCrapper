@@ -1,10 +1,10 @@
 =
 {name -> Mon Site Web}
-{url -> http://info.cern.ch/hypertext/WWW/TheProject.html}
+{url -> http://info.cern.ch/hypertext/WWW/}
 +
 {max-depth -> 2}
 {versioning -> on}
-{option3 -> value3}
+{type -> (image/jpeg)}
 
 ==
 {name -> Ma super tache}
