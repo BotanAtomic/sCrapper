@@ -7,9 +7,11 @@
 char *stringCopy(char *src) {
     char *newStr = malloc(strlen(src) + 1);
 
-    for (int i = 0; src[i] != 0; i++)
+    int i = 0;
+    for (i = 0; src[i] != 0; i++)
         newStr[i] = src[i];
 
+    newStr[i] = 0;
     return newStr;
 }
 
@@ -40,4 +42,23 @@ char *getFromOption(Option *option, char *defaultValue) {
     if (option)
         return option->value;
     return defaultValue;
+}
+
+char *readFile(FILE *file, long *length) {
+    char *buffer = NULL;
+
+    if (file) {
+        fseek(file, 0, SEEK_END);
+        *length = ftell(file);
+        fseek(file, 0, SEEK_SET);
+
+        buffer = malloc(*length);
+        if (buffer) {
+            fread(buffer, 1, *length, file);
+        } else {
+            printError("No enough memory !");
+            exit(-1);
+        }
+    }
+    return buffer;
 }

@@ -17,4 +17,6 @@ int getIntegerFromOption(Option * option, int defaultValue);
 
 char * getFromOption(Option * option, char * defaultValue);
 
+char * readFile(FILE* file, long * length);
+
 #endif //SCRAPPER_UTILS_H

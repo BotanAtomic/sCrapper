@@ -36,6 +36,7 @@ void *startTaskTimer(void *taskPtr) {
     while (1) {
         sleep(task->second + (task->minute * 60) + (task->hour * 3600));
         foreach(task->action, aspire);
+        break;
     }
 
     return 0;

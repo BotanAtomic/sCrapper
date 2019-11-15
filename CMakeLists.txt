@@ -18,6 +18,6 @@ include_directories(include)
 
 add_executable(sCrapper src/core/main.c src/configuration/configuration.c include/configuration.h src/shell/shell.c include/shell.h src/scanner/scanner.c
         include/scanner.h include/list.h src/list/list.c src/configuration/parser.c include/parser.h src/utils/utils.c include/utils.h src/scheduler/scheduler.c
-        include/scheduler.h src/comparator/comparaor.c include/comparator.h src/scrapper/scrapper.c include/scrapper.h)
+        include/scheduler.h src/comparator/comparaor.c include/comparator.h src/scrapper/scrapper.c include/scrapper.h src/analyser/analyser.c include/analyser.h)
 
 target_link_libraries(sCrapper curl)

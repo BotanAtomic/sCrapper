@@ -2,9 +2,9 @@
 {name -> Mon Site Web}
 {url -> http://info.cern.ch/hypertext/WWW/}
 +
-{max-depth -> 2}
-{versioning -> on}
-{type -> (image/jpeg)}
+{max-depth -> 10}
+{versioning -> off}
+#{type -> (image/jpeg)}
 
 ==
 {name -> Ma super tache}
